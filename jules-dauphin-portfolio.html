@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jules Dauphin — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --c1:#1DB954;--c2:#00C2FF;--c3:#A78BFA;--c4:#F59E0B;--c5:#EC4899;--c6:#10B981;
+  --dark:#0A0A0A;--light:#F5F7F2;--white:#fff;--border:#E2E8DA;--gray:#5F6B5A;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--light);color:var(--dark);overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;width:100%;z-index:999;background:rgba(245,247,242,0.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1300px;margin:0 auto;padding:0 2.5rem;height:62px;display:flex;align-items:center;justify-content:space-between;gap:1.5rem}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.15rem;letter-spacing:-0.5px;color:var(--dark);white-space:nowrap;cursor:pointer}
+.nav-logo em{font-style:normal;color:var(--c1)}
+.nav-tabs{display:flex;gap:2px;list-style:none}
+.nav-tabs li a{display:block;padding:0.42rem 0.9rem;font-size:0.8rem;font-weight:500;text-decoration:none;color:var(--gray);border-radius:8px;transition:all 0.18s;white-space:nowrap;cursor:pointer}
+.nav-tabs li a:hover{background:#E8EDE3;color:var(--dark)}
+.nav-tabs li a.active{background:var(--dark);color:#fff}
+.nav-cta{background:var(--c1);color:#fff;padding:0.45rem 1.2rem;border-radius:50px;font-size:0.8rem;font-weight:600;cursor:pointer;border:none;font-family:'Outfit',sans-serif;transition:all 0.2s}
+.nav-cta:hover{filter:brightness(1.1);transform:scale(1.03)}
+
+/* PAGES */
+.page{display:none;min-height:100vh;padding-top:62px}
+.page.active{display:block}
+
+/* HERO */
+.hero-section{position:relative;overflow:hidden;background:var(--dark);color:#fff;padding:5rem 2.5rem 0}
+.hero-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.hero-blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:0.12}
+.b1{width:500px;height:500px;background:#1DB954;top:-100px;left:-80px}
+.b2{width:400px;height:400px;background:#A78BFA;bottom:-50px;right:10%}
+.b3{width:300px;height:300px;background:#00C2FF;top:30%;left:40%}
+
+.hero-top{position:relative;z-index:2;max-width:1300px;margin:0 auto;display:grid;grid-template-columns:1.1fr 0.9fr;gap:4rem;align-items:start;padding-bottom:4rem}
+.hero-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:50px;padding:0.35rem 1rem;font-size:0.75rem;font-weight:500;color:#bbb;margin-bottom:1.8rem}
+.hero-badge-dot{width:7px;height:7px;background:#1DB954;border-radius:50%}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(3.5rem,6vw,5.5rem);font-weight:800;line-height:1.0;letter-spacing:-3px;margin-bottom:0.3rem}
+.hero h1 em{font-style:normal;color:var(--c1)}
+.hero-role{font-size:1rem;color:#888;margin-top:1rem;line-height:1.6;max-width:480px}
+.hero-role strong{color:#ddd;font-weight:500}
+.hero-actions{display:flex;gap:0.8rem;margin-top:2rem;flex-wrap:wrap}
+.btn-light{background:#fff;color:var(--dark);padding:0.72rem 1.8rem;border-radius:50px;font-size:0.88rem;font-weight:600;border:none;cursor:pointer;transition:all 0.2s;font-family:'Outfit',sans-serif}
+.btn-light:hover{background:#eee;transform:translateY(-1px)}
+.btn-ghost{border:1.5px solid rgba(255,255,255,0.25);color:#ddd;padding:0.72rem 1.8rem;border-radius:50px;font-size:0.88rem;font-weight:500;background:transparent;cursor:pointer;transition:all 0.2s;font-family:'Outfit',sans-serif}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.6);color:#fff}
+
+.hero-right-info{display:flex;flex-direction:column;gap:1rem;padding-top:1rem}
+.info-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:1.2rem 1.4rem}
+.info-card-label{font-size:0.7rem;font-weight:600;color:#555;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:0.5rem}
+.info-card-value{font-size:0.92rem;color:#ddd;line-height:1.5}
+.info-card-value strong{color:#fff;font-weight:500}
+.info-tag{display:inline-block;background:rgba(29,185,84,0.2);color:#4ade80;font-size:0.72rem;padding:0.2rem 0.65rem;border-radius:50px;font-weight:500;margin-top:0.4rem;margin-right:0.3rem;border:1px solid rgba(29,185,84,0.3)}
+
+/* SKILLS STRIP */
+.skills-strip{position:relative;z-index:2;max-width:1300px;margin:0 auto;padding-bottom:0}
+.skills-strip-label{font-size:0.72rem;font-weight:600;color:#444;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:1rem}
+.skills-strip-row{display:flex;gap:0.7rem;flex-wrap:nowrap;overflow-x:auto;padding-bottom:0;scrollbar-width:none}
+.skills-strip-row::-webkit-scrollbar{display:none}
+.strip-pill{display:flex;align-items:center;gap:0.55rem;padding:0.6rem 1.1rem;border-radius:50px;font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.22s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;border:2px solid transparent;flex-shrink:0}
+.strip-pill:hover{transform:translateY(-3px) scale(1.04)}
+.strip-pill.active-pill{transform:translateY(-3px) scale(1.06);box-shadow:0 8px 24px rgba(0,0,0,0.25)}
+.strip-pill-icon{font-size:1rem}
+
+/* DETAIL PANEL */
+.skill-detail-panel{background:var(--dark);border-top:1px solid rgba(255,255,255,0.08);overflow:hidden;max-height:0;transition:max-height 0.5s cubic-bezier(0.4,0,0.2,1)}
+.skill-detail-panel.open{max-height:600px}
+.sdp-inner{max-width:1300px;margin:0 auto;padding:2.5rem 2.5rem 3rem;display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:3rem;align-items:start}
+.sdp-icon{font-size:3rem;margin-bottom:0.8rem}
+.sdp-title{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;letter-spacing:-1px;color:#fff}
+.sdp-level{display:inline-block;font-size:0.72rem;font-weight:700;padding:0.25rem 0.75rem;border-radius:50px;margin-top:0.5rem}
+.sdp-desc{color:#999;line-height:1.75;font-size:0.9rem;margin-top:1rem}
+.sdp-mid-title{font-size:0.7rem;font-weight:700;color:#555;letter-spacing:0.7px;text-transform:uppercase;margin-bottom:1rem}
+.sdp-examples{display:flex;flex-direction:column;gap:0.65rem}
+.sdp-ex{display:flex;align-items:flex-start;gap:0.8rem;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:0.85rem 1rem;font-size:0.85rem;color:#ccc;line-height:1.55}
+.sdp-ex-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:0.4rem}
+.sdp-bar-label{display:flex;justify-content:space-between;font-size:0.72rem;color:#666;margin-bottom:0.5rem;margin-top:1rem}
+.sdp-bar-track{height:5px;background:rgba(255,255,255,0.08);border-radius:50px;overflow:hidden}
+.sdp-bar-fill{height:100%;border-radius:50px;transition:width 1s ease}
+.sdp-kw{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:1.5rem}
+.sdp-kw-tag{font-size:0.73rem;padding:0.28rem 0.7rem;border-radius:50px;background:rgba(255,255,255,0.07);color:#aaa;font-weight:500;border:1px solid rgba(255,255,255,0.1)}
+.sdp-close{display:flex;align-items:center;gap:0.5rem;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:50px;padding:0.4rem 1rem;font-size:0.75rem;color:#888;cursor:pointer;margin-top:2rem;transition:all 0.2s;font-family:'Outfit',sans-serif}
+.sdp-close:hover{color:#fff;border-color:rgba(255,255,255,0.3)}
+
+/* HOME CARDS */
+.home-cards{max-width:1300px;margin:3rem auto;padding:0 2.5rem 4rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.2rem}
+.hcard{background:#fff;border-radius:20px;padding:1.8rem;border:1.5px solid var(--border);cursor:pointer;transition:all 0.22s}
+.hcard:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,0.06)}
+.hcard-icon{font-size:1.6rem;margin-bottom:0.8rem}
+.hcard-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;margin-bottom:0.4rem}
+.hcard-desc{font-size:0.82rem;color:var(--gray);line-height:1.5}
+.hcard-link{margin-top:1rem;font-size:0.78rem;font-weight:600}
+
+/* PAGE HEADER */
+.pheader{background:var(--dark);color:#fff;padding:4rem 2.5rem 3rem}
+.pheader-inner{max-width:1300px;margin:0 auto}
+.ptag{display:inline-block;background:rgba(255,255,255,0.09);color:#aaa;font-size:0.72rem;padding:0.28rem 0.85rem;border-radius:50px;margin-bottom:1rem;border:1px solid rgba(255,255,255,0.13)}
+.pheader h2{font-family:'Syne',sans-serif;font-size:clamp(2.2rem,4vw,3.8rem);font-weight:800;letter-spacing:-1.5px;line-height:1.05}
+.pheader p{color:#888;margin-top:0.8rem;font-size:0.95rem;max-width:580px;line-height:1.65}
+.accent{color:var(--c1)}
+.page-content{max-width:1300px;margin:0 auto;padding:3rem 2.5rem}
+
+/* SKILLS GRID */
+.skills-grid-full{display:grid;grid-template-columns:repeat(2,1fr);gap:1.3rem}
+.sgf-card{background:#fff;border-radius:22px;padding:2rem;cursor:pointer;border:2px solid var(--border);transition:all 0.28s cubic-bezier(.34,1.56,.64,1);position:relative;overflow:hidden}
+.sgf-card:hover{transform:translateY(-5px);box-shadow:0 20px 50px rgba(0,0,0,0.07)}
+.sgf-num{position:absolute;top:-0.8rem;right:1.2rem;font-family:'Syne',sans-serif;font-size:4rem;font-weight:800;opacity:0.05;line-height:1}
+.sgf-top{display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem}
+.sgf-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
+.sgf-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800}
+.sgf-level{font-size:0.72rem;font-weight:600;padding:0.2rem 0.6rem;border-radius:50px;margin-top:0.25rem;display:inline-block}
+.sgf-desc{font-size:0.87rem;color:var(--gray);line-height:1.65}
+.sgf-bar-wrap{margin-top:1.3rem;height:4px;background:#eef0ea;border-radius:50px;overflow:hidden}
+.sgf-bar{height:100%;border-radius:50px;transition:width 1.2s ease}
+.sgf-footer{display:flex;justify-content:space-between;align-items:center;margin-top:0.6rem}
+.sgf-pct{font-family:'Syne',sans-serif;font-size:0.8rem;font-weight:700;color:#bbb}
+
+/* EXPÉRIENCES */
+.exp-section{padding-top:62px}
+.exp-hero{background:linear-gradient(135deg,#0a2a1a 0%,#0d3d22 50%,#051a10 100%);color:#fff;padding:4rem 2.5rem 3rem;position:relative;overflow:hidden}
+.exp-hero::before{content:'';position:absolute;inset:0;opacity:0.05;background:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M20 20.5V18H0v5h5v5H0v5h20v-2.5h5V20.5zM10 28H5v-5h5zm10 0h-5v-5h5zm10 5H20v-5h10z'/%3E%3C/g%3E%3C/svg%3E")}
+.exp-hero-inner{max-width:1300px;margin:0 auto;position:relative}
+.exp-hero h2{font-family:'Syne',sans-serif;font-size:clamp(2.2rem,4vw,3.5rem);font-weight:800;letter-spacing:-1.5px}
+.exp-hero h2 em{font-style:normal;color:#4ade80}
+.exp-hero p{color:#6b9e7a;margin-top:0.8rem;max-width:560px;line-height:1.65;font-size:0.95rem}
+.exp-body{max-width:1300px;margin:0 auto;padding:3rem 2.5rem}
+.exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+.exp-card{background:#fff;border-radius:20px;padding:2rem;border:1.5px solid var(--border);transition:all 0.22s;position:relative;overflow:hidden}
+.exp-card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,0.06)}
+.exp-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;border-radius:4px 0 0 4px}
+.exp-date{font-size:0.72rem;font-weight:600;color:#bbb;letter-spacing:0.4px;margin-bottom:0.5rem}
+.exp-title{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:800;line-height:1.2}
+.exp-company{font-size:0.82rem;color:var(--gray);font-style:italic;margin-top:0.2rem;margin-bottom:1rem}
+.exp-bullets{list-style:none;display:flex;flex-direction:column;gap:0.5rem}
+.exp-bullet{display:flex;align-items:flex-start;gap:0.6rem;font-size:0.84rem;color:#555;line-height:1.5}
+.exp-bullet-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:0.38rem}
+
+/* AVENIR */
+.future-section{padding-top:62px}
+.future-hero{background:linear-gradient(135deg,#0c0020 0%,#1a0040 50%,#0c0030 100%);color:#fff;padding:4.5rem 2.5rem 3.5rem;position:relative;overflow:hidden}
+.future-hero-inner{max-width:1300px;margin:0 auto;position:relative}
+.future-hero h2{font-family:'Syne',sans-serif;font-size:clamp(2.2rem,4vw,3.5rem);font-weight:800;letter-spacing:-1.5px}
+.future-hero h2 em{font-style:normal;color:#C4B5FD}
+.future-hero p{color:#9370DB;margin-top:0.8rem;max-width:560px;line-height:1.65;font-size:0.95rem}
+.future-body{max-width:1300px;margin:0 auto;padding:3rem 2.5rem}
+.future-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.4rem}
+.future-card{background:#fff;border-radius:22px;padding:2rem;border:1.5px solid var(--border);cursor:default;transition:all 0.25s}
+.future-card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,0.06)}
+.fc-top{display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem}
+.fc-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
+.fc-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800}
+.fc-sub{font-size:0.76rem;color:#999;margin-top:0.2rem}
+.fc-body{font-size:0.875rem;color:var(--gray);line-height:1.68}
+.fc-chips{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:1rem}
+.fc-chip{font-size:0.72rem;padding:0.22rem 0.65rem;border-radius:50px;background:#f0f2ec;color:#555;font-weight:500}
+.fc-full{grid-column:span 2}
+
+/* ABOUT */
+.about-page-wrap{padding-top:62px}
+.about-cover{background:var(--dark);color:#fff;padding:5rem 2.5rem 4rem;position:relative;overflow:hidden}
+.about-cover::after{content:'JULES';position:absolute;bottom:-2rem;right:-1rem;font-family:'Syne',sans-serif;font-size:12rem;font-weight:800;opacity:0.03;letter-spacing:-5px;line-height:1;pointer-events:none}
+.about-cover-inner{max-width:1300px;margin:0 auto}
+.about-cover h2{font-family:'Syne',sans-serif;font-size:clamp(2.5rem,5vw,4.5rem);font-weight:800;letter-spacing:-2.5px;line-height:1}
+.about-cover h2 em{font-style:normal;color:var(--c1)}
+.about-cover-desc{color:#888;margin-top:1.2rem;font-size:0.95rem;line-height:1.7;max-width:600px}
+.about-chips{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1.5rem}
+.about-chip{display:flex;align-items:center;gap:0.4rem;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:50px;padding:0.35rem 0.9rem;font-size:0.78rem;color:#ccc}
+.about-body-wrap{max-width:1300px;margin:0 auto;padding:4rem 2.5rem}
+.about-main-grid{display:grid;grid-template-columns:1.3fr 0.7fr;gap:3.5rem;align-items:start}
+.about-bio h3{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;letter-spacing:-0.5px;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1.5px solid var(--border)}
+.about-bio p{color:#555;line-height:1.8;font-size:0.93rem;margin-bottom:1rem}
+.about-bio p strong{color:var(--dark);font-weight:600}
+.about-highlight{background:linear-gradient(135deg,#f0fff4,#e8f5e9);border-left:3px solid var(--c1);border-radius:0 12px 12px 0;padding:1rem 1.2rem;margin:1.5rem 0;font-size:0.9rem;color:#444;line-height:1.65}
+.about-highlight strong{color:#15803d}
+.about-right{}
+.about-stat-cards{display:flex;flex-direction:column;gap:1rem}
+.asc{background:#fff;border-radius:18px;padding:1.4rem;border:1.5px solid var(--border)}
+.asc-n{font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:var(--c1);line-height:1}
+.asc-l{font-size:0.8rem;color:var(--gray);margin-top:0.3rem;line-height:1.4}
+.about-ambition{background:var(--dark);border-radius:18px;padding:1.6rem;color:#fff;margin-top:1rem}
+.aa-label{font-size:0.68rem;font-weight:700;color:#444;letter-spacing:0.7px;text-transform:uppercase;margin-bottom:0.6rem}
+.aa-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:#fff;line-height:1.3}
+.aa-desc{font-size:0.78rem;color:#888;margin-top:0.5rem;line-height:1.5}
+.aa-tags{display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.8rem}
+.aa-tag{font-size:0.68rem;padding:0.2rem 0.55rem;border-radius:50px;background:rgba(29,185,84,0.15);color:#4ade80;border:1px solid rgba(29,185,84,0.25);font-weight:500}
+.tl-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;margin:2rem 0 1.2rem;padding-bottom:0.8rem;border-bottom:1.5px solid var(--border)}
+.timeline{display:flex;flex-direction:column;gap:0;position:relative}
+.timeline::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:1.5px;background:var(--border)}
+.tl-item{display:flex;gap:1.2rem;padding-bottom:1.8rem;position:relative}
+.tl-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;border:3px solid var(--light);position:relative;z-index:1}
+.tl-year{font-size:0.7rem;font-weight:700;color:#bbb;letter-spacing:0.5px;margin-bottom:0.2rem}
+.tl-name{font-size:0.9rem;font-weight:600;color:var(--dark)}
+.tl-desc{font-size:0.8rem;color:var(--gray);margin-top:0.2rem;line-height:1.5}
+
+/* CONTACT */
+.contact-page-wrap{padding-top:62px}
+.contact-wrap{max-width:720px;margin:0 auto;padding:5rem 2.5rem 6rem}
+.contact-tag{display:inline-block;background:#f0fff4;color:#15803d;font-size:0.73rem;font-weight:600;padding:0.3rem 0.85rem;border-radius:50px;margin-bottom:1rem}
+.contact-wrap h2{font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-1.5px}
+.contact-wrap>p{color:var(--gray);margin-top:0.75rem;line-height:1.65;font-size:0.93rem}
+.contact-info{display:flex;gap:1rem;margin-top:1.5rem;flex-wrap:wrap}
+.ci{display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;color:#888}
+.ci-dot{width:6px;height:6px;border-radius:50%;background:var(--c1)}
+.cform{margin-top:2.8rem;display:flex;flex-direction:column;gap:1rem}
+.cf-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.cf-group{display:flex;flex-direction:column;gap:0.4rem}
+.cf-group label{font-size:0.78rem;font-weight:600;color:#444}
+.cf-group input,.cf-group textarea{border:1.5px solid var(--border);border-radius:12px;padding:0.78rem 1rem;font-family:'Outfit',sans-serif;font-size:0.9rem;background:#fff;outline:none;transition:border 0.2s;resize:none;color:var(--dark)}
+.cf-group input:focus,.cf-group textarea:focus{border-color:var(--c1);box-shadow:0 0 0 3px rgba(29,185,84,0.1)}
+.cf-submit{background:var(--dark);color:#fff;padding:0.9rem 2rem;border-radius:50px;font-size:0.9rem;font-weight:600;border:none;cursor:pointer;align-self:flex-start;transition:all 0.2s;font-family:'Outfit',sans-serif}
+.cf-submit:hover{background:var(--c1);transform:translateY(-2px);box-shadow:0 8px 20px rgba(29,185,84,0.3)}
+.cf-success{display:none;background:#d1fae5;border-radius:12px;padding:1rem;color:#065f46;font-size:0.88rem;text-align:center;margin-top:0.5rem}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,10,10,0.72);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1.5rem;opacity:0;pointer-events:none;transition:opacity 0.22s;backdrop-filter:blur(6px)}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:#fff;border-radius:28px;max-width:640px;width:100%;max-height:90vh;overflow-y:auto;padding:2.5rem;position:relative;transform:scale(0.94) translateY(18px);transition:all 0.32s cubic-bezier(.34,1.56,.64,1)}
+.modal-overlay.open .modal{transform:scale(1) translateY(0)}
+.modal-bar{height:5px;border-radius:50px;margin-bottom:2rem}
+.modal-close{position:absolute;top:1.4rem;right:1.4rem;width:34px;height:34px;border-radius:50%;background:#f0f2ec;border:none;cursor:pointer;font-size:1rem;color:#666;display:flex;align-items:center;justify-content:center;transition:all 0.18s;font-family:'Outfit',sans-serif}
+.modal-close:hover{background:#e0e4d8}
+.modal-ico{font-size:2.2rem;margin-bottom:0.8rem}
+.modal h3{font-family:'Syne',sans-serif;font-size:1.65rem;font-weight:800;letter-spacing:-0.5px;line-height:1.1}
+.modal-badge{display:inline-block;font-size:0.73rem;font-weight:600;padding:0.28rem 0.8rem;border-radius:50px;margin-top:0.5rem;margin-bottom:1.2rem}
+.modal-description{color:#555;line-height:1.78;font-size:0.92rem}
+.modal-stitle{font-size:0.7rem;font-weight:700;color:#aaa;letter-spacing:0.7px;text-transform:uppercase;margin:1.4rem 0 0.75rem}
+.modal-exs{display:flex;flex-direction:column;gap:0.65rem}
+.modal-ex{background:#f5f7f2;border-radius:12px;padding:0.85rem 1rem;font-size:0.86rem;color:#444;line-height:1.55;display:flex;gap:0.7rem;align-items:flex-start}
+.mex-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:0.38rem}
+.modal-kws{display:flex;flex-wrap:wrap;gap:0.4rem}
+.modal-kw{font-size:0.73rem;padding:0.27rem 0.72rem;border-radius:50px;background:#f0f2ec;color:#666;font-weight:500}
+
+footer{background:var(--dark);color:#444;text-align:center;padding:2rem 2.5rem;font-size:0.8rem;border-top:1px solid #1a1a1a}
+footer em{font-style:normal;color:var(--c1)}
+footer span{color:#222;margin:0 0.5rem}
+
+@media(max-width:1100px){
+  .sdp-inner{grid-template-columns:1fr 1fr}
+  .home-cards{grid-template-columns:1fr 1fr}
+}
+@media(max-width:900px){
+  .hero-top{grid-template-columns:1fr}.hero-right-info{display:none}
+  .skills-grid-full,.exp-grid,.future-grid{grid-template-columns:1fr}
+  .about-main-grid{grid-template-columns:1fr}
+  .cf-row{grid-template-columns:1fr}
+  .nav-tabs{display:none}
+  .sdp-inner{grid-template-columns:1fr}
+  .fc-full{grid-column:span 1}
+}
+@media(max-width:640px){
+  .home-cards{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-logo" onclick="showPage('home')">Jules <em>Dauphin</em></span>
+    <ul class="nav-tabs">
+      <li><a onclick="showPage('home')" class="active" id="tab-home">Accueil</a></li>
+      <li><a onclick="showPage('skills')" id="tab-skills">Soft Skills</a></li>
+      <li><a onclick="showPage('experiences')" id="tab-experiences">Expériences</a></li>
+      <li><a onclick="showPage('avenir')" id="tab-avenir">Mon avenir</a></li>
+      <li><a onclick="showPage('about')" id="tab-about">À propos</a></li>
+      <li><a onclick="showPage('contact')" id="tab-contact">Contact</a></li>
+    </ul>
+    <button class="nav-cta" onclick="showPage('contact')">Me contacter</button>
+  </div>
+</nav>
+
+<!-- ACCUEIL -->
+<div class="page active" id="page-home">
+  <section class="hero-section">
+    <div class="hero-bg"><div class="hero-blob b1"></div><div class="hero-blob b2"></div><div class="hero-blob b3"></div></div>
+    <div class="hero-top">
+      <div class="hero-left">
+        <div class="hero-badge"><span class="hero-badge-dot"></span>Portfolio · IUT de Bourges · BUT GEA GEMA · Promo 2026</div>
+        <h1>Jules<br><em>Dauphin</em></h1>
+        <p class="hero-role">Étudiant en <strong>BUT GEA parcours GEMA</strong> à l'IUT de Bourges · Alternant chez <strong>France Loire</strong> · Passionné de marketing, voyage et padel · Futur <strong>Chef de projet marketing</strong>.</p>
+        <div class="hero-actions">
+          <button class="btn-light" onclick="showPage('skills')">Mes soft skills</button>
+          <button class="btn-ghost" onclick="showPage('about')">À propos de moi</button>
+        </div>
+      </div>
+      <div class="hero-right-info">
+        <div class="info-card">
+          <div class="info-card-label">Formation</div>
+          <div class="info-card-value"><strong>BUT GEA — Parcours GEMA</strong><br>IUT de Bourges · 2023–2026</div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-label">Alternance</div>
+          <div class="info-card-value"><strong>Chargé d'attribution logement</strong><br>France Loire · Vierzon · Août 2024–2026</div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-label">Projet professionnel</div>
+          <div class="info-card-value"><strong>Chef de projet Marketing</strong><br>Master Marketing · Grandes Écoles</div>
+          <span class="info-tag">Marketing digital</span><span class="info-tag">Gestion de projet</span>
+        </div>
+      </div>
+    </div>
+    <div class="skills-strip">
+      <div class="skills-strip-label">— Mes soft skills — cliquez pour détailler</div>
+      <div class="skills-strip-row" id="stripRow"></div>
+    </div>
+  </section>
+
+  <div class="skill-detail-panel" id="detailPanel">
+    <div class="sdp-inner">
+      <div>
+        <div class="sdp-icon" id="sdpIcon"></div>
+        <div class="sdp-title" id="sdpTitle"></div>
+        <span class="sdp-level" id="sdpLevel"></span>
+        <p class="sdp-desc" id="sdpDesc"></p>
+        <button class="sdp-close" onclick="closeDetail()">✕ Fermer</button>
+      </div>
+      <div>
+        <div class="sdp-mid-title">Exemples concrets</div>
+        <div class="sdp-examples" id="sdpExamples"></div>
+      </div>
+      <div>
+        <div class="sdp-mid-title">Maîtrise</div>
+        <div id="sdpBars"></div>
+        <div class="sdp-mid-title" style="margin-top:1.5rem">Mots-clés</div>
+        <div class="sdp-kw" id="sdpKw"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="home-cards">
+    <div class="hcard" onclick="showPage('skills')">
+      <div class="hcard-icon">🎯</div>
+      <div class="hcard-title">Soft Skills</div>
+      <div class="hcard-desc">Travail d'équipe, communication, autonomie, sens des responsabilités — les compétences humaines qui me définissent.</div>
+      <div class="hcard-link" style="color:var(--c1)">Voir la section →</div>
+    </div>
+    <div class="hcard" onclick="showPage('experiences')">
+      <div class="hcard-icon">💼</div>
+      <div class="hcard-title">Expériences</div>
+      <div class="hcard-desc">Alternance France Loire, stages en immobilier, logistique et archivage — un parcours varié et concret.</div>
+      <div class="hcard-link" style="color:var(--c2)">Voir la section →</div>
+    </div>
+    <div class="hcard" onclick="showPage('avenir')">
+      <div class="hcard-icon">🚀</div>
+      <div class="hcard-title">Mon avenir</div>
+      <div class="hcard-desc">PVT en Australie, Master Marketing, Chef de projet — ma vision pour les 3 à 5 prochaines années.</div>
+      <div class="hcard-link" style="color:var(--c3)">Voir la section →</div>
+    </div>
+  </div>
+  <footer><p>© 2026 <em>Jules Dauphin</em><span>·</span>IUT de Bourges · BUT GEA GEMA</p></footer>
+</div>
+
+<!-- SOFT SKILLS -->
+<div class="page" id="page-skills">
+  <div class="pheader">
+    <div class="pheader-inner">
+      <div class="ptag">Soft Skills</div>
+      <h2>Mes <span class="accent">compétences</span> humaines</h2>
+      <p>Des compétences développées au fil de mes expériences en alternance, de mes stages et de mon parcours académique. Cliquez sur une carte pour le détail complet.</p>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="skills-grid-full" id="skillsGridFull"></div>
+  </div>
+  <footer><p>© 2026 <em>Jules Dauphin</em><span>·</span>IUT de Bourges · BUT GEA GEMA</p></footer>
+</div>
+
+<!-- EXPÉRIENCES -->
+<div class="page" id="page-experiences">
+  <div class="exp-section">
+    <div class="exp-hero">
+      <div class="exp-hero-inner">
+        <div class="ptag" style="background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15)">Expériences professionnelles</div>
+        <h2>Mon <em>parcours</em> pro</h2>
+        <p>De l'immobilier à la logistique en passant par le logement social — des expériences variées qui ont forgé ma polyvalence et mon adaptabilité.</p>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="exp-grid" id="expGrid"></div>
+    </div>
+    <footer><p>© 2026 <em>Jules Dauphin</em><span>·</span>IUT de Bourges · BUT GEA GEMA</p></footer>
+  </div>
+</div>
+
+<!-- AVENIR -->
+<div class="page" id="page-avenir">
+  <div class="future-section">
+    <div class="future-hero">
+      <div class="future-hero-inner">
+        <div class="ptag" style="background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15)">Vision 3–5 ans</div>
+        <h2>Mon <em>avenir</em></h2>
+        <p>Entre année sabatique en Australie, poursuite en Master et ambition de devenir Chef de projet marketing — voici ma feuille de route.</p>
+      </div>
+    </div>
+    <div class="future-body">
+      <div class="future-grid" id="futureGrid"></div>
+    </div>
+    <footer><p>© 2026 <em>Jules Dauphin</em><span>·</span>IUT de Bourges · BUT GEA GEMA</p></footer>
+  </div>
+</div>
+
+<!-- À PROPOS -->
+<div class="page" id="page-about">
+  <div class="about-page-wrap">
+    <div class="about-cover">
+      <div class="about-cover-inner">
+        <h2>À propos de <em>moi</em></h2>
+        <p class="about-cover-desc">Étudiant en BUT GEA GEMA à l'IUT de Bourges, en alternance chez France Loire. Curieux, dynamique et tourné vers l'international — je construis aujourd'hui les bases d'une carrière dans le marketing et la gestion de projet.</p>
+        <div class="about-chips">
+          <div class="about-chip"><span>🎓</span> BUT GEA GEMA — IUT de Bourges</div>
+          <div class="about-chip"><span>💼</span> Alternance France Loire · Vierzon</div>
+          <div class="about-chip"><span>🌏</span> PVT Australie prévu</div>
+          <div class="about-chip"><span>🎾</span> Padel · Basket · Voyage</div>
+          <div class="about-chip"><span>🇫🇷</span> Français · <span>🇬🇧</span> Anglais · <span>🇪🇸</span> Espagnol</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-body-wrap">
+      <div class="about-main-grid">
+        <div class="about-bio">
+          <h3>Qui suis-je ?</h3>
+          <p>Je m'appelle <strong>Jules Dauphin</strong> et je suis actuellement étudiant en <strong>BUT GEA, parcours GEMA</strong> (Gestion Entrepreneuriale et Management d'Activité) à l'IUT de Bourges. Après un <strong>Baccalauréat Général</strong> au lycée Jacques Monod de Saint-Jean-de-Braye, j'ai intégré cette formation qui m'a permis de combiner apprentissage académique et expérience professionnelle concrète via l'alternance.</p>
+          <p>Depuis août 2024, je suis en alternance chez <strong>France Loire à Vierzon</strong> en tant que <strong>Chargé d'attribution logement</strong>. Cette mission m'a plongé dans un environnement professionnel exigeant où la rigueur administrative, le sens du contact humain et le travail en équipe sont indispensables au quotidien. Gérer des dossiers d'attribution sensibles pour des familles en attente de logement m'a profondément responsabilisé.</p>
+          <div class="about-highlight">
+            Mon objectif est de poursuivre vers un <strong>Master Marketing ou un programme Grande École</strong> — à Paris, Orléans ou Montpellier — pour devenir <strong>Chef de projet marketing</strong>. Avant cela, je prévois une <strong>année sabatique avec un PVT en Australie</strong> pour voyager, travailler et perfectionner mon anglais.
+          </div>
+          <p>Je parle <strong>français</strong> (natif), <strong>anglais</strong> et <strong>espagnol</strong> (lus, écrits et parlés). En dehors de mes études, je pratique le <strong>padel</strong> et le <strong>basket</strong>, et je nourris une passion pour le voyage et les nouvelles cultures — une ouverture au monde qui, je crois, fait de moi un profil plus riche et plus adaptable.</p>
+          <p>Ce portfolio soft skills est né d'un projet académique, mais il reflète sincèrement qui je suis : ma façon de travailler, de communiquer, de me responsabiliser et de collaborer. Ces qualités humaines sont, à mes yeux, le socle de tout parcours professionnel réussi.</p>
+
+          <div class="tl-title">Mon parcours</div>
+          <div class="timeline">
+            <div class="tl-item">
+              <div class="tl-dot" style="background:#f0fff4">📝</div>
+              <div>
+                <div class="tl-year">2022–2023</div>
+                <div class="tl-name">Baccalauréat Général</div>
+                <div class="tl-desc">Lycée Jacques Monod · Saint-Jean-de-Braye. Première étape vers mes études supérieures en gestion.</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot" style="background:#f0fff4">📚</div>
+              <div>
+                <div class="tl-year">2023–2026</div>
+                <div class="tl-name">BUT GEA GEMA · IUT de Bourges</div>
+                <div class="tl-desc">Gestion Entrepreneuriale et Management d'Activité. Alternance chez France Loire depuis août 2024.</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot" style="background:#f0f0ff">✈️</div>
+              <div>
+                <div class="tl-year">2026 · Projet</div>
+                <div class="tl-name">Année sabatique — PVT Australie</div>
+                <div class="tl-desc">Voyager, découvrir une nouvelle culture, travailler et perfectionner mon anglais pendant plusieurs mois.</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot" style="background:#fdf4ff">🎓</div>
+              <div>
+                <div class="tl-year">2027–2029 · Objectif</div>
+                <div class="tl-name">Master Marketing · Grande École</div>
+                <div class="tl-desc">Paris, Orléans ou Montpellier — Master Marketing, Master Programme Grandes Écoles ou Master Management.</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot" style="background:#fff0f0">🚀</div>
+              <div>
+                <div class="tl-year">2029 et après</div>
+                <div class="tl-name">Chef de projet marketing</div>
+                <div class="tl-desc">Organisation de projets, coordination d'équipes, marketing digital et analyse de données.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="about-right">
+          <div class="about-stat-cards">
+            <div class="asc"><div class="asc-n">Bac+3</div><div class="asc-l">BUT GEA GEMA<br>IUT de Bourges · Promo 2026</div></div>
+            <div class="asc"><div class="asc-n">3</div><div class="asc-l">Langues maîtrisées<br>Français · Anglais · Espagnol</div></div>
+            <div class="asc"><div class="asc-n">4+</div><div class="asc-l">Expériences professionnelles<br>Alternance · Stages · Jobs</div></div>
+          </div>
+          <div class="about-ambition">
+            <div class="aa-label">Ambition professionnelle</div>
+            <div class="aa-title">Chef de projet marketing</div>
+            <div class="aa-desc">Coordination d'équipes, pilotage de projets marketing digitaux et gestion de données — dans un environnement international si possible.</div>
+            <div class="aa-tags">
+              <span class="aa-tag">Marketing digital</span>
+              <span class="aa-tag">Gestion de projet</span>
+              <span class="aa-tag">Data analyse</span>
+              <span class="aa-tag">International</span>
+              <span class="aa-tag">Australie</span>
+            </div>
+          </div>
+          <div style="margin-top:1rem;background:#fff;border-radius:18px;padding:1.4rem;border:1.5px solid var(--border)">
+            <div style="font-size:0.7rem;font-weight:700;color:#bbb;letter-spacing:0.7px;text-transform:uppercase;margin-bottom:0.8rem">Outils maîtrisés</div>
+            <div style="display:flex;flex-direction:column;gap:0.5rem">
+              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.82rem;color:#444"><span style="color:var(--c1);font-size:1rem">✓</span> Pack Office (Word, Excel, PowerPoint)</div>
+              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.82rem;color:#444"><span style="color:var(--c1);font-size:1rem">✓</span> Canva</div>
+              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.82rem;color:#444"><span style="color:var(--c1);font-size:1rem">✓</span> Fonctions Excel avancées</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer><p>© 2026 <em>Jules Dauphin</em><span>·</span>IUT de Bourges · BUT GEA GEMA</p></footer>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="page" id="page-contact">
+  <div class="contact-page-wrap">
+    <div class="contact-wrap">
+      <div class="contact-tag">Contact</div>
+      <h2>Travaillons ensemble</h2>
+      <p>Une question, une opportunité ou juste envie d'échanger ? N'hésitez pas à m'écrire.</p>
+      <div class="contact-info">
+        <div class="ci"><div class="ci-dot"></div>jules.dauphin45@gmail.com</div>
+        <div class="ci"><div class="ci-dot"></div>06.32.26.05.32</div>
+        <div class="ci"><div class="ci-dot"></div>3 rue des Minimes, Bourges</div>
+      </div>
+      <form class="cform" id="contactForm">
+        <div class="cf-row">
+          <div class="cf-group"><label>Prénom</label><input type="text" placeholder="Marie"></div>
+          <div class="cf-group"><label>Nom</label><input type="text" placeholder="Dupont"></div>
+        </div>
+        <div class="cf-group"><label>Email</label><input type="email" placeholder="marie@email.com"></div>
+        <div class="cf-group"><label>Objet</label><input type="text" placeholder="Opportunité de stage · Marketing"></div>
+        <div class="cf-group"><label>Message</label><textarea rows="5" placeholder="Bonjour Jules, je souhaitais vous contacter au sujet de..."></textarea></div>
+        <button type="submit" class="cf-submit">Envoyer le message ✉</button>
+        <div class="cf-success" id="formOk">✅ Message envoyé ! Je vous réponds rapidement.</div>
+      </form>
+    </div>
+    <footer><p>© 2026 <em>Jules Dauphin</em><span>·</span>IUT de Bourges · BUT GEA GEMA</p></footer>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" id="mClose">✕</button>
+    <div class="modal-bar" id="mBar"></div>
+    <div class="modal-ico" id="mIcon"></div>
+    <h3 id="mTitle"></h3>
+    <span class="modal-badge" id="mBadge"></span>
+    <p class="modal-description" id="mDesc"></p>
+    <p class="modal-stitle">Exemples concrets</p>
+    <div class="modal-exs" id="mExamples"></div>
+    <p class="modal-stitle" style="margin-top:1.2rem">Mots-clés</p>
+    <div class="modal-kws" id="mKw"></div>
+  </div>
+</div>
+
+<script>
+var skills = [
+  {icon:'🤝',color:'#1DB954',bg:'#f0fff4',tc:'#15803d',title:'Travail en équipe',level:'Expert',pct:92,
+   short:"Collaborer, coordonner, avancer ensemble.",
+   desc:"Le travail en équipe est au cœur de mon quotidien, aussi bien en alternance qu'à l'IUT. Chez France Loire, je collabore en permanence avec les chargés d'attribution, les commerciaux, les gestionnaires et les services administratifs. Mon rôle de chargé d'attribution implique de transmettre les bonnes informations aux bons interlocuteurs au bon moment — ce qui exige une coordination fluide et une communication claire. À l'IUT, les nombreux travaux de groupe m'ont appris à écouter les autres, partager mes idées et m'adapter aux différentes méthodes de travail pour atteindre un objectif commun. La pratique du basket renforce également cette capacité à jouer collectif.",
+   examples:["Coordination quotidienne avec 4 services différents chez France Loire (attribution, gestion, commercial, administratif) pour instruire les dossiers de logement","Participation active à de nombreux travaux de groupe en BUT GEA : études de cas, projets tutorés, simulations d'entreprise — toujours dans une logique de répartition par compétences","Pratique du basket : apprentissage du collectif, de la communication sous pression et de la complémentarité des rôles","Adaptation constante à des profils très différents au sein des équipes — introvertis, leaders, profils techniques ou créatifs"],
+   keywords:['Collaboration','Coordination','Basket','Communication d\'équipe','Écoute','Partage','Esprit collectif']},
+  {icon:'💬',color:'#00C2FF',bg:'#e0f7ff',tc:'#0070a0',title:'Communication',level:'Avancé',pct:88,
+   short:"Clarté, adaptation, confiance.",
+   desc:"La communication est l'une de mes compétences les plus sollicitées, aussi bien en alternance qu'en stage. Chez France Loire, je suis régulièrement en contact direct avec les locataires : expliquer des démarches administratives complexes, annoncer des décisions d'attribution, rassurer des personnes en attente de logement. Cela m'a appris à adopter un langage clair, bienveillant et adapté à chaque situation. Mon stage en agence immobilière chez Coup2Cœur IMMO a également développé mes capacités relationnelles lors de la prospection et des visites. Mes études renforcent constamment ma communication écrite et orale.",
+   examples:["Contact régulier avec les locataires chez France Loire : explication des démarches administratives et modalités d'entrée dans le logement avec pédagogie et clarté","Prospection téléphonique et organisation de visites chez Coup2Cœur IMMO : adaptation au profil de chaque client, création d'un climat de confiance","Présentations orales régulières en BUT GEA : soutenances de projets, exposés, rapports écrits complets","Rédaction de courriers administratifs et de comptes-rendus dans le cadre de l'alternance"],
+   keywords:['Communication orale','Relation client','Rédaction','Pédagogie','Adaptation','Clarté','Confiance']},
+  {icon:'⚡',color:'#F59E0B',bg:'#fffbeb',tc:'#92400e',title:'Autonomie',level:'Avancé',pct:85,
+   short:"Organiser, décider, avancer seul.",
+   desc:"Mon parcours en alternance m'a très vite confronté à la nécessité d'être autonome. Chez France Loire, je suis responsable de la préparation et de l'instruction des dossiers d'attribution de bout en bout : collecter les pièces, vérifier leur conformité, respecter les délais des commissions, sans supervision permanente. En parallèle, le rythme du BUT GEA m'impose de gérer mes priorités entre les cours et l'entreprise, deux univers aux exigences très différentes. J'ai ainsi développé ma capacité à prendre des initiatives, résoudre seul les problèmes courants et assumer pleinement mes responsabilités.",
+   examples:["Gestion autonome des dossiers d'attribution chez France Loire : collecte, vérification, instruction et transmission aux commissions sans supervision permanente","Gestion des priorités entre les cours en IUT et les missions en entreprise — deux rythmes très différents gérés en parallèle avec efficacité","Prise d'initiative sur l'organisation du classement des archives chez Société Générale des Archives pour optimiser les espaces","Résolution autonome des problèmes quotidiens liés aux dossiers locataires : pièces manquantes, délais, questions administratives"],
+   keywords:['Autonomie','Prise d\'initiative','Organisation','Rigueur','Gestion des priorités','Proactivité','Responsabilité']},
+  {icon:'🎖️',color:'#EC4899',bg:'#fff0f6',tc:'#9d174d',title:'Sens des responsabilités',level:'Expert',pct:90,
+   short:"Rigueur, vigilance, engagement.",
+   desc:"Le sens des responsabilités est sans doute la compétence que j'ai le plus développée à travers mon alternance chez France Loire. Gérer des dossiers d'attribution de logement, c'est tenir entre ses mains des situations humaines importantes : une famille en attente, un dossier incomplet peut retarder une attribution et avoir des conséquences réelles pour des personnes vulnérables. Cette conscience de l'impact de mon travail m'a appris à travailler avec une rigueur et une vigilance de tous les instants. Mes expériences en logistique et en archivage ont également renforcé cette compétence à travers le respect des consignes, des délais et du matériel confié.",
+   examples:["Instruction de dossiers d'attribution chez France Loire avec impact direct sur les locataires : rigueur absolue requise pour chaque dossier avant passage en commission","Gestion de la confidentialité des données locataires — sensibilisation aux enjeux de discrétion et de protection des informations personnelles","Respect scrupuleux des délais dans le cadre des missions logistique (Covea) et archivage (Société Générale des Archives)","Engagement total dans toutes les missions confiées : même pour les jobs étudiants, j'ai toujours adopté une posture professionnelle sérieuse"],
+   keywords:['Rigueur','Confidentialité','Vigilance','Respect des délais','Engagement','Fiabilité','Sérieux']}
+];
+
+var experiences = [
+  {color:'#1DB954',icon:'🏠',date:'Août 2024 – Août 2026',title:'Alternant Chargé d\'attribution logement',company:'France Loire · Vierzon',
+   bullets:['Participer à la gestion de la demande de logements sociaux','Collecter et instruire les dossiers d\'attribution des logements','Préparer les dossiers pour les commissions d\'attribution','Finaliser la mise en location et accompagner l\'entrée dans le logement','Renseigner les locataires sur les démarches administratives']},
+  {color:'#00C2FF',icon:'🏢',date:'Janvier 2024',title:'Stagiaire Agent Immobilier',company:'Coup2Cœur IMMO · Saint-Martin-d\'Auxigny',
+   bullets:['Prospection et développement du portefeuille client','Organisation de visites virtuelles et physiques de biens','Estimations immobilières et conseils aux vendeurs','Développement des compétences relationnelles et commerciales']},
+  {color:'#F59E0B',icon:'📦',date:'Mars 2024',title:'Préparateur de commande',company:'Covea · Fleury-les-Aubrais',
+   bullets:['Assurer le suivi des stocks en entrepôt','Préparer les commandes clients dans les délais impartis','Emballer et expédier les colis avec rigueur','Respect des procédures de qualité et de sécurité']},
+  {color:'#EC4899',icon:'🗄️',date:'Juillet 2024',title:'Manutentionnaire / Archiviste',company:'Société Générale des Archives · Fleury-les-Aubrais',
+   bullets:['Gestion et organisation des archives physiques','Tri, classement et archivage rigoureux des documents','Déménagement et optimisation des espaces d\'archivage','Respect strict des procédures de confidentialité']}
+];
+
+var futureItems = [
+  {icon:'✈️',color:'#A78BFA',bg:'#f5f3ff',title:'Année sabatique — PVT Australie',sub:'2026 · Projet international',
+   body:'Avant d\'entrer en Master, je prévois une année sabatique avec un PVT (Programme Vacances Travail) en Australie. Objectif triple : voyager et découvrir une culture radicalement différente, travailler pour financer le voyage, et surtout perfectionner mon anglais dans un contexte d\'immersion totale. Une expérience qui renforcera mon autonomie, mon adaptabilité et mon ouverture internationale.',
+   chips:['PVT Australie','Immersion anglais','Voyage','Découverte culturelle','Travail à l\'étranger','Autonomie']},
+  {icon:'🎓',color:'#1DB954',bg:'#f0fff4',title:'Master Marketing · Grande École',sub:'2027–2029 · Poursuite d\'études',
+   body:'À mon retour d\'Australie, je rejoindrai un Master spécialisé en Marketing ou un Programme Grande École. Je vise des établissements comme Audencia, TBS Education, NEOMA, Emlyon ou INSEEC pour les grandes écoles, ou des Masters universitaires en Marketing Digital à Paris, Lille ou Nantes. L\'objectif : acquérir les compétences techniques en marketing digital, analyse de données et gestion de projet.',
+   chips:['Master Marketing','Grandes Écoles','Marketing digital','Analyse de données','Paris / Orléans / Montpellier']},
+  {icon:'📊',color:'#00C2FF',bg:'#e0f7ff',title:'Compétences à développer',sub:'Leadership & Management',
+   body:'Ma feuille de route de développement personnel inclut le renforcement du leadership (coordonner des équipes), de l\'organisation et gestion de projet, de l\'esprit d\'équipe en contexte multiculturel, et des compétences techniques en marketing digital et analyse de données. Ces axes sont au cœur de mon projet de carrière.',
+   chips:['Leadership','Organisation','Gestion de projet','Marketing digital','Analyse de données','Management']},
+  {icon:'🚀',color:'#EC4899',bg:'#fff0f6',title:'Chef de projet marketing',sub:'2029 et après · Métier visé',
+   body:'Mon ambition professionnelle est de devenir Chef de projet marketing : coordonner des équipes créatives et techniques, piloter des campagnes de A à Z, analyser les données pour optimiser les performances et impulser des stratégies innovantes. Un métier qui combine vision stratégique, créativité, rigueur et leadership — tout ce que je construis aujourd\'hui.',
+   chips:['Chef de projet','Coordination d\'équipes','Stratégie marketing','Campagnes digitales','Performance','Leadership'],full:true}
+];
+
+// Render Strip
+var stripRow = document.getElementById('stripRow');
+var activeStrip = null;
+skills.forEach(function(s){
+  var pill = document.createElement('div');
+  pill.className='strip-pill';
+  pill.style.cssText='background:'+s.bg+';color:'+s.tc+';border-color:'+s.bg;
+  pill.innerHTML='<span class="strip-pill-icon">'+s.icon+'</span>'+s.title;
+  pill.addEventListener('click',function(){
+    if(activeStrip===s.title){closeDetail();return}
+    activeStrip=s.title;
+    document.querySelectorAll('.strip-pill').forEach(function(p){p.classList.remove('active-pill')});
+    pill.classList.add('active-pill');
+    openDetail(s);
+  });
+  stripRow.appendChild(pill);
+});
+
+function openDetail(s){
+  document.getElementById('sdpIcon').textContent=s.icon;
+  document.getElementById('sdpTitle').textContent=s.title;
+  var lv=document.getElementById('sdpLevel');lv.textContent=s.level;lv.style.background=s.bg;lv.style.color=s.tc;
+  document.getElementById('sdpDesc').textContent=s.desc;
+  document.getElementById('sdpExamples').innerHTML=s.examples.map(function(e){return'<div class="sdp-ex"><div class="sdp-ex-dot" style="background:'+s.color+'"></div><span>'+e+'</span></div>'}).join('');
+  document.getElementById('sdpBars').innerHTML='<div class="sdp-bar-label"><span>Niveau de maîtrise</span><span>'+s.pct+'%</span></div><div class="sdp-bar-track"><div class="sdp-bar-fill" id="sdpBarFill" style="background:'+s.color+';width:0%"></div></div>';
+  setTimeout(function(){var f=document.getElementById('sdpBarFill');if(f)f.style.width=s.pct+'%'},100);
+  document.getElementById('sdpKw').innerHTML=s.keywords.map(function(k){return'<span class="sdp-kw-tag">'+k+'</span>'}).join('');
+  var panel=document.getElementById('detailPanel');panel.classList.add('open');
+  setTimeout(function(){panel.scrollIntoView({behavior:'smooth',block:'nearest'})},100);
+}
+function closeDetail(){
+  document.getElementById('detailPanel').classList.remove('open');
+  document.querySelectorAll('.strip-pill').forEach(function(p){p.classList.remove('active-pill')});
+  activeStrip=null;
+}
+
+// Render Skills Grid
+var sgf=document.getElementById('skillsGridFull');
+skills.forEach(function(s,i){
+  var c=document.createElement('div');c.className='sgf-card';
+  c.style.cssText='border-left:4px solid '+s.color;
+  c.innerHTML='<div class="sgf-num">0'+(i+1)+'</div><div class="sgf-top"><div class="sgf-icon" style="background:'+s.bg+'">'+s.icon+'</div><div><div class="sgf-title">'+s.title+'</div><span class="sgf-level" style="background:'+s.bg+';color:'+s.tc+'">'+s.level+'</span></div></div><div class="sgf-desc">'+s.desc.substring(0,200)+'…</div><div class="sgf-bar-wrap"><div class="sgf-bar" style="background:'+s.color+';width:0%" data-w="'+s.pct+'"></div></div><div class="sgf-footer"><span style="font-size:0.72rem;color:'+s.tc+'">'+s.keywords.slice(0,3).join(' · ')+'</span><span class="sgf-pct">'+s.pct+'%</span></div>';
+  c.addEventListener('click',function(){openModal(s)});
+  sgf.appendChild(c);
+});
+
+// Render Experiences
+var eg=document.getElementById('expGrid');
+experiences.forEach(function(e){
+  var d=document.createElement('div');d.className='exp-card';
+  d.style.cssText='border-left-color:'+e.color;
+  d.innerHTML='<div class="exp-date">'+e.date+'</div><div class="exp-title">'+e.icon+' '+e.title+'</div><div class="exp-company">'+e.company+'</div><ul class="exp-bullets">'+e.bullets.map(function(b){return'<li class="exp-bullet"><div class="exp-bullet-dot" style="background:'+e.color+'"></div><span>'+b+'</span></li>'}).join('')+'</ul>';
+  eg.appendChild(d);
+});
+
+// Render Future
+var fg=document.getElementById('futureGrid');
+futureItems.forEach(function(f){
+  var d=document.createElement('div');
+  d.className='future-card'+(f.full?' fc-full':'');
+  d.innerHTML='<div class="fc-top"><div class="fc-icon" style="background:'+f.bg+'">'+f.icon+'</div><div><div class="fc-title">'+f.title+'</div><div class="fc-sub">'+f.sub+'</div></div></div><div class="fc-body">'+f.body+'</div><div class="fc-chips">'+f.chips.map(function(c){return'<span class="fc-chip">'+c+'</span>'}).join('')+'</div>';
+  fg.appendChild(d);
+});
+
+// Intersection observer for bars
+var io=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting)e.target.querySelectorAll('[data-w]').forEach(function(b){b.style.width=b.dataset.w+'%'})});
+},{threshold:0.15});
+if(sgf)io.observe(sgf);
+
+// Modal
+function openModal(s){
+  document.getElementById('mBar').style.background=s.color;
+  document.getElementById('mIcon').textContent=s.icon;
+  document.getElementById('mTitle').textContent=s.title;
+  var b=document.getElementById('mBadge');b.textContent=s.level;b.style.background=s.bg;b.style.color=s.tc;
+  document.getElementById('mDesc').textContent=s.desc;
+  document.getElementById('mExamples').innerHTML=(s.examples||[]).map(function(e){return'<div class="modal-ex"><div class="mex-dot" style="background:'+s.color+'"></div><span>'+e+'</span></div>'}).join('');
+  document.getElementById('mKw').innerHTML=(s.keywords||[]).map(function(k){return'<span class="modal-kw">'+k+'</span>'}).join('');
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+document.getElementById('mClose').addEventListener('click',closeModal);
+document.getElementById('modalOverlay').addEventListener('click',function(e){if(e.target===e.currentTarget)closeModal()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal()});
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');document.body.style.overflow='';}
+
+// Routing
+function showPage(id){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});
+  document.querySelectorAll('.nav-tabs a').forEach(function(a){a.classList.remove('active')});
+  document.getElementById('page-'+id).classList.add('active');
+  var t=document.getElementById('tab-'+id);if(t)t.classList.add('active');
+  window.scrollTo(0,0);
+  setTimeout(function(){document.querySelectorAll('[data-w]').forEach(function(b){if(!b.style.width||b.style.width==='0%')b.style.width=b.dataset.w+'%'})},250);
+}
+
+document.getElementById('contactForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  document.getElementById('formOk').style.display='block';
+  e.target.querySelectorAll('input,textarea').forEach(function(el){el.value=''});
+  setTimeout(function(){document.getElementById('formOk').style.display='none'},6000);
+});
+</script>
+</body>
+</html>
